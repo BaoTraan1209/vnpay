@@ -12,13 +12,6 @@ def generate_vnpay_signature(
     params: dict,
     hash_secret: str
 ) -> str:
-    """
-    VNPAY signs data by:
-    1. removing empty values
-    2. sorting keys alphabetically
-    3. URL-encoding the data
-    4. hashing with HMAC-SHA512
-    """
     valid_params = {}
 
     for key, value in params.items():
@@ -44,9 +37,6 @@ def verify_vnpay_signature(
     params: dict,
     received_hash: str
 ) -> bool:
-    if not VNPAY_HASH_SECRET or not received_hash:
-        return False
-
     secure_params = {
         key: value
         for key, value in params.items()
@@ -77,9 +67,6 @@ def verify_vnpay_signature(
 
 
 def build_payment_url(params: dict) -> str:
-    if not VNPAY_HASH_SECRET:
-        raise ValueError("Missing VNPAY_HASH_SECRET in .env")
-
     secure_hash = generate_vnpay_signature(
         params,
         VNPAY_HASH_SECRET

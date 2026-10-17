@@ -11,12 +11,15 @@
 <body>
 
     <div class="container">
+        <h2>VNPAY Sandbox Payment</h2>
         <form action="/payment/create" method="get">
+            <!-- Order Information -->
             <div class="form-group">
-                <label for="order_info">Order</label>
+                <label for="order_info">Order Information</label>
                 <input id="order_info" type="text" name="order_info" value="T-Shirt" required>
             </div>
 
+            <!-- Amount -->
             <div class="form-group">
                 <label for="amount">Amount (VND)</label>
                 <input id="amount" type="number" name="amount" value="100000" min="1000" required>
