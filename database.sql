@@ -1,0 +1,16 @@
+CREATE DATABASE IF NOT EXISTS vnpay_demo
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+
+USE vnpay_demo;
+
+CREATE TABLE IF NOT EXISTS transactions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id VARCHAR(50) NOT NULL UNIQUE,
+    amount INT NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+    vnp_transaction_no VARCHAR(100),
+    response_code VARCHAR(10),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

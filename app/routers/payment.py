@@ -7,10 +7,10 @@ from app.config import (
     VNPAY_TMN_CODE,
     RETURN_URL,
 )
+from app.services.callback import handle_callback
 from app.services.vnpay import build_payment_url
 from app.services.transactions import (
     create_pending_transaction,
-    process_ipn_params,
 )
 
 router = APIRouter(prefix="/payment")
@@ -21,18 +21,23 @@ def create_payment(
     amount: int,
     order_info: str
 ):
+    """
+    Step 1: User submits the payment form.
+    Step 2: Our app creates a local PENDING transaction.
+    Step 3: Our app builds a signed VNPAY URL and redirects the user.
+    """
     order_id = (
         "ORDER_"
         + datetime.now().strftime("%Y%m%d%H%M%S")
     )
 
-    # Save transaction as PENDING
+    # Save transaction first so callback/IPN can verify it later.
     create_pending_transaction(
         order_id,
         amount
     )
 
-    # VNPAY requires amount * 100
+    # VNPAY requires amount in the smallest currency unit.
     amount_for_vnpay = amount * 100
 
     create_date = datetime.now().strftime(
@@ -86,6 +91,10 @@ def create_payment(
 
 @router.get("/return")
 async def payment_return(request: Request):
+    """
+    This route is used for user experience only.
+    The reliable payment confirmation is handled by /payment/ipn.
+    """
 
     params = dict(request.query_params)
 
@@ -119,16 +128,17 @@ async def payment_return(request: Request):
     if (
         response_code == "00"
         and transaction_status == "00"
-    ): return RedirectResponse(url="/payment/success")
+    ):
+        return RedirectResponse(url="/payment/success")
 
     return RedirectResponse(url="/payment/failed")
 
 
 @router.get("/ipn")
 async def vnpay_ipn(request: Request):
-
+    """
+    VNPAY calls this route in the background.
+    We verify signature, order id, amount, and database state here.
+    """
     params = dict(request.query_params)
-    return process_ipn_params(
-        params,
-        "VNPAY IPN CALLBACK"
-    )
+    return handle_callback(params)
