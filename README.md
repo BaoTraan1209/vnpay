@@ -1,18 +1,6 @@
 <div align="center">
 
-# 💳 VNPAY Sandbox Demo
-
-**Hướng dẫn cài đặt và chạy chương trình**
-
-![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white)
-![ngrok](https://img.shields.io/badge/ngrok-1F1E37?logo=ngrok&logoColor=white)
-![VNPAY](https://img.shields.io/badge/VNPAY-Sandbox-005BAA)
-
-</div>
-
----
+# VNPAY Sandbox Demo
 
 ## Nhóm SOA.26-11
 
