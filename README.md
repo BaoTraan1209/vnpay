@@ -2,7 +2,7 @@
 
 # VNPAY Sandbox Demo
 
-## Nhóm SOA.26-11
+### Nhóm SOA.26-11
 
 | MSSV | Họ và tên |
 |------|-----------|
@@ -10,11 +10,13 @@
 | 524H0113 | Phan Thụy Mỹ Ngọc |
 | 524H0076 | Hoàng Thái An |
 
+</div>
+
 ---
 
 ## Mục lục
 
-1. [Yêu cầu hệ thống](#-yêu-cầu-hệ-thống)
+1. [Yêu cầu hệ thống](#yêu-cầu-hệ-thống)
 2. [Tạo môi trường ảo](#1-tạo-môi-trường-ảo)
 3. [Tạo database MySQL](#2-tạo-database-mysql)
 4. [Cấu hình file `.env`](#3-cấu-hình-file-env)
@@ -23,8 +25,8 @@
 7. [Chạy chương trình](#6-chạy-chương-trình)
 8. [Thử thanh toán Sandbox](#7-thử-thanh-toán-sandbox)
 9. [Kiểm tra dữ liệu](#8-kiểm-tra-dữ-liệu-trong-database)
-10. [Xử lý lỗi thường gặp](#-xử-lý-lỗi-thường-gặp)
-11. [Bảo mật](#-bảo-mật)
+10. [Xử lý lỗi thường gặp](#xử-lý-lỗi-thường-gặp)
+11. [Bảo mật](#bảo-mật)
 
 ---
 
