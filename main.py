@@ -27,8 +27,6 @@ BASE_URL = os.getenv("BASE_URL")
 
 RETURN_URL = f"{BASE_URL}/payment/return"
 
-last_return_params = {}
-
 
 def log_section(title: str):
     print("\n", flush=True)
@@ -76,9 +74,7 @@ def generate_vnpay_signature(
 
 # VNPAY SIGNATURE VERIFICATION
 def verify_vnpay_signature(
-    params: dict,
-    received_hash: str
-) -> bool:
+    params: dict, received_hash: str) -> bool:
 
     secure_params = {
         key: value
@@ -528,11 +524,7 @@ async def payment_return(
     request: Request
 ):
 
-    global last_return_params
-
     params = dict(request.query_params)
-
-    last_return_params = params
 
     order_id = params.get("vnp_TxnRef")
 
@@ -545,10 +537,6 @@ async def payment_return(
     print("Order ID:", order_id, flush=True)
     print("Response Code:", response_code, flush=True)
     print("Transaction Status:", transaction_status, flush=True)
-    print(
-        "For presentation, open /payment/ipn-demo to show IPN logs.",
-        flush=True
-    )
 
     if (
         response_code == "00"
@@ -608,24 +596,6 @@ def payment_success():
 
         <p>Your payment has been completed successfully.</p>
 
-        <p>
-            <a
-                href="/payment/ipn-demo"
-                target="_blank"
-                style="
-                    display: inline-block;
-                    margin: 15px;
-                    padding: 12px 20px;
-                    background: #0066cc;
-                    color: white;
-                    text-decoration: none;
-                    border-radius: 5px;
-                "
-            >
-                Show IPN in Terminal
-            </a>
-        </p>
-
         <a href="/">
             Back to Home
         </a>
@@ -634,42 +604,13 @@ def payment_success():
     </html>
     """
 
-
-@app.get("/payment/ipn-demo")
-def vnpay_ipn_demo():
-
-    if not last_return_params:
-
-        log_section("VNPAY IPN DEMO")
-        print(
-            "No VNPAY return data yet. Please complete a payment first.",
-            flush=True
-        )
-
-        return JSONResponse({
-
-            "RspCode": "99",
-
-            "Message": "No payment return data yet"
-
-        })
-
-    return process_ipn_params(
-        last_return_params,
-        "VNPAY IPN DEMO - PRESENTATION"
-    )
-
-
 # VNPAY IPN CALLBACK
 @app.get("/payment/ipn")
-async def vnpay_ipn(
-    request: Request
-):
-
+async def vnpay_ipn(request: Request):
     params = dict(
         request.query_params
     )
-
+    
     return process_ipn_params(
         params,
         "VNPAY IPN CALLBACK"
